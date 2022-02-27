@@ -14,6 +14,7 @@ def index(request):
 def products(request):
     context = {
         'title': 'GeekShop - Каталог',
-        'products': Product.objects.all()[:6]
+        'products': Product.objects.all()[:6],
+        'categories': ProductCategory.objects.all(),
     }
     return render(request, 'products/products.html', context)
