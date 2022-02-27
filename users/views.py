@@ -15,6 +15,8 @@ def login(request):
             if user and user.is_active:
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('index'))
+        else:
+            print(form.errors)
     else:
         form = UserLoginForm()
     context = {'title': 'GeekShop - Авторизация',
@@ -29,6 +31,8 @@ def registration(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:login'))
+        else:
+            print(form.errors)
     else:
         form = UserRegistrationForm()
     context = {
@@ -36,3 +40,8 @@ def registration(request):
         'form': form
     }
     return render(request, 'users/registration.html', context)
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('index'))
