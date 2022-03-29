@@ -19,7 +19,7 @@ def login(request):
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
-                auth.login(request, user)
+                auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return HttpResponseRedirect(reverse('index'))
         else:
             print(form.errors)
@@ -64,7 +64,7 @@ def verify(request, email, activate_key):
             user.activation_key_expires = None
             user.is_active = True
             user.save(update_fields=['activation_key', 'activation_key_expires', 'is_active'])
-            auth.login(request, user)
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return render(request, 'users/verification.html')
         else:
             return render(request, 'users/verification.html')

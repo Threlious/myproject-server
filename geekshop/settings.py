@@ -35,6 +35,19 @@ EMAIL_USE_SSL = False
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/emails'
 
+SOCIAL_AUTH_VK_OAUTH2_KEY = '8120268'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'rIkeRwtUgij5LRMWzXr7'
+SOCIAL_AUTH_VK_OAUTH2_API_VERSION = '5.131'
+SOCIAL_AUTH_VK_OAUTH2_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email', 'age']
+
+LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.vk.VKOAuth2'
+)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,6 +61,7 @@ INSTALLED_APPS = [
     'users',
     'baskets',
     'admins',
+    'social_django'  # pip install social-auth-app-django==5.0.0
 ]
 
 MIDDLEWARE = [

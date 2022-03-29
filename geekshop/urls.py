@@ -26,6 +26,8 @@ urlpatterns = [
     re_path(r'^users/', include('users.urls', namespace='users')),
     path('baskets/', include('baskets.urls', namespace='baskets')),
     path('admin-staff/', include('admins.urls', namespace='admin_staff')),
+
+    path('', include('social_django.urls', namespace='social'))
 ]
 
 if settings.DEBUG:
