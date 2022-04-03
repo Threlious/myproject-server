@@ -1,0 +1,17 @@
+{% extends 'products/base.html' %}
+
+{% block edit %}
+    <form class="form-horizontal" action="{% url 'users:profile' %}" method="post"
+          enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ edit_form.as_p }}
+        <div>О себе</div>
+        {{ profile_form.as_p }}
+        <input class="form-control" type="submit" value="Сохранить">
+    </form>
+    <button class="btn btn-round form-control last">
+        <a href="{% url 'products:index' %}" class="">
+            На главную
+        </a>
+    </button>
+{% endblock %}
