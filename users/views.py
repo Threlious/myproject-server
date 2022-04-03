@@ -5,8 +5,8 @@ from django.contrib import auth, messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
-from users.models import User
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, UserProfileEditForm
+from users.models import User, UserProfile
 
 from baskets.models import Basket
 
@@ -76,17 +76,21 @@ def verify(request, email, activate_key):
 def profile(request):
     user = request.user
     if request.method == 'POST':
-        form = UserProfileForm(instance=user, data=request.POST, files=request.FILES)
-        if form.is_valid():
-            form.save()
+        edit_form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        profile_form = UserProfileEditForm(request.POST, instance=request.user.userprofile)
+        if edit_form.is_valid() and profile_form.is_valid():
+            edit_form.save()
+            messages.add_message(request, messages.INFO, 'Изменения успешно сохранены')
             return HttpResponseRedirect(reverse('users:profile'))
     else:
-        form = UserProfileForm(instance=user)
+        edit_form = UserProfileForm(instance=request.user)
+        profile_form = UserProfileEditForm(instance=request.user.userprofile)
     baskets = Basket.objects.filter(user=user)
 
     context = {
         'title': 'GeekShop - Профиль',
-        'form': form,
+        'edit_form': edit_form,
+        'profile_form': profile_form,
         'baskets': baskets,
     }
     return render(request, 'users/profile.html', context)
@@ -95,3 +99,6 @@ def profile(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+
+
