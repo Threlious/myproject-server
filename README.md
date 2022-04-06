@@ -1,2 +1,1 @@
-# MyProject Server
-#sample
+lesson-2 done
